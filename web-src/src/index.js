@@ -29,6 +29,6 @@ function bootstrapInExcShell() {
       document.getElementById('root')
     )
   })
-  runtime.solution = { icon: 'AdobeExperienceCloud', title: 'Hello World App', shortTitle: 'Hello' }
-  runtime.title = 'Hello World App'
+  runtime.solution = { icon: 'AdobeExperienceCloud', title: 'Hello World', shortTitle: 'Hello' }
+  runtime.title = 'Hello World'
 }

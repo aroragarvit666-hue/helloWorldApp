@@ -6,11 +6,13 @@ async function main(params) {
     logger.info('Action invoked')
     logger.debug('Params:', JSON.stringify(params))
 
-    // Extract IMS token (require-adobe-auth: true injects it)
+    // The name to greet (optional — defaults to "World")
+    const name = params.name || 'World'
+
+    // Extract IMS token (require-adobe-auth: true injects this)
     const token = params.__ow_headers?.authorization?.replace('Bearer ', '')
     logger.debug('IMS token present:', Boolean(token))
 
-    const name = params.name || 'World'
     const result = { message: `Hello, ${name}!` }
 
     logger.info('Action completed successfully')
