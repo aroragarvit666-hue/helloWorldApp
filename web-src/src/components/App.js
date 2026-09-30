@@ -8,28 +8,28 @@ import {
   Content,
   TextField,
   Button,
+  Well,
   InlineAlert,
   ProgressCircle,
-  Well,
 } from '@adobe/react-spectrum'
 import actions from '../config.json'
 
 export default function App({ runtime, ims }) {
-  // Do NOT call runtime.done() here — index.js calls it in the ready handler
+  // Do NOT call runtime.done() here — index.js calls it in the ready handler.
   const helloUrl = actions['hello'] // exact action name from app.config.yaml
 
   const [name, setName] = useState('')
-  const [message, setMessage] = useState('')
+  const [greeting, setGreeting] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
   async function sayHello() {
     setError('')
-    setMessage('')
+    setGreeting('')
 
     if (!helloUrl) {
-      // config.json is empty before deploy / preview
-      setError('Action URL not available yet. Deploy the app or start the sandbox to call the action.')
+      // config.json is empty until the app is deployed or a sandbox preview is running.
+      setError('Action URL is not available yet. Deploy the app (aio app deploy) or start a preview to enable this.')
       return
     }
 
@@ -46,7 +46,7 @@ export default function App({ runtime, ims }) {
       })
       if (!res.ok) throw new Error(`Action failed: ${res.status}`)
       const data = await res.json()
-      setMessage(data.message)
+      setGreeting(data.message)
     } catch (e) {
       setError(e.message)
     } finally {
@@ -56,37 +56,30 @@ export default function App({ runtime, ims }) {
 
   return (
     <Provider theme={defaultTheme}>
-      <View padding="size-400" maxWidth="size-6000" marginX="auto">
+      <View padding="size-400" maxWidth="size-6000" margin="0 auto">
         <Flex direction="column" gap="size-300">
-          <Heading level={1}>Hello World App</Heading>
-          <Content>Enter a name and call the App Builder action to get a greeting.</Content>
+          <Heading level={1}>Hello World</Heading>
+          <Content>Enter a name and greet it through an Adobe I/O Runtime action.</Content>
 
           <TextField
             label="Name"
             value={name}
             onChange={setName}
-            onSubmit={sayHello}
+            placeholder="World"
             width="100%"
+            onKeyDown={(e) => e.key === 'Enter' && sayHello()}
           />
 
-          <Button
-            variant="accent"
-            onPress={sayHello}
-            isPending={isLoading}
-            alignSelf="start"
-          >
-            Say Hello
-          </Button>
+          <Flex gap="size-150" alignItems="center">
+            <Button variant="accent" onPress={sayHello} isPending={isLoading}>
+              Say Hello
+            </Button>
+            {isLoading && <ProgressCircle aria-label="Calling action" isIndeterminate size="S" />}
+          </Flex>
 
-          {isLoading && (
-            <Flex alignItems="center" justifyContent="center" height="size-1000">
-              <ProgressCircle aria-label="Calling action" isIndeterminate />
-            </Flex>
-          )}
-
-          {message && (
+          {greeting && (
             <Well>
-              <Heading level={3} margin={0}>{message}</Heading>
+              <Heading level={3} marginTop="size-0">{greeting}</Heading>
             </Well>
           )}
 
