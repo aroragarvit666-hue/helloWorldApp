@@ -19,6 +19,24 @@ describe('hello', () => {
     expect(res.body.message).toBe('Hello, Ada!')
   })
 
+  it('returns 400 with a personalized greeting', async () => {
+    const res = await main({ name: 'Ada' })
+    expect(res.statusCode).toBe(400)
+    expect(res.body.message).toBe('Hello, Ada!')
+  })
+
+  it('returns 500 with a personalized greeting', async () => {
+    const res = await main({ name: 'Ada' })
+    expect(res.statusCode).toBe(500)
+    expect(res.body.message).toBe('Hello, Ada!')
+  })
+
+  it('returns 300 with a personalized greeting', async () => {
+    const res = await main({ name: 'Ada' })
+    expect(res.statusCode).toBe(300)
+    expect(res.body.message).toBe('Hello, Ada!')
+  })
+
   it('reads the IMS token from headers without failing', async () => {
     const res = await main({
       name: 'Ada',
