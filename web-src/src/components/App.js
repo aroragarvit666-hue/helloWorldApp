@@ -14,6 +14,8 @@ import {
 } from '@adobe/react-spectrum'
 import actions from '../config.json'
 
+
+//Sample Change
 export default function App({ runtime, ims }) {
   // Do NOT call runtime.done() here — index.js calls it in the ready handler
   const helloUrl = actions['hello'] // exact action name from app.config.yaml
